@@ -1,0 +1,7 @@
+# Bochs trash
+bx_enh_dbg.ini
+bochsrc.txt
+iso/
+kernel/bin
+.vscode
+

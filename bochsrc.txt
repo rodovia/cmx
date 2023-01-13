@@ -1,7 +1,0 @@
-megs: 128
-romimage: file=$BXSHARE/BIOS-bochs-latest
-vgaromimage: file=$BXSHARE/VGABIOS-lgpl-latest
-ata0-master:  type=cdrom, path=iso/cmx-x86_64.iso, status=inserted
-boot: cdrom
-display_library: x, options="gui_debug"
-magic_break: enabled=1
