@@ -54,6 +54,32 @@ void printf(const char* msg, ...)
                 PwWrite(sz);
             }
 
+            case 'u':
+            {
+                char nnextc = msg[i + 2];
+                switch (nnextc)
+                {
+                case 'i':
+                {
+                    unsigned int fd = va_arg(list, unsigned int);
+                    PwWritei(fd);
+                    break;
+                }
+
+                case 'l':
+                {
+                    unsigned long fd = va_arg(list, unsigned long);
+                    PwWriteu(fd);
+                    break;
+                }
+
+                default:
+                    PwWrite("\nprintf: CANNOT SPECIFY %u with unknown complement\n");
+                    va_end(list);
+                    return;
+                }
+            }
+
             default:
                 break;
             }
@@ -62,12 +88,11 @@ void printf(const char* msg, ...)
         {
             if (msg[i - 1] == '%')
             {
-                return;
+                continue;
             }
 
             PwWritec(c);
         }
     }
-
     va_end(list);
 }

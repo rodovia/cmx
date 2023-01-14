@@ -47,7 +47,32 @@ static void ReverseString(char* str)
 	}
 }
 
-char* PwNumberToString(int64_t number, char* str, int32_t base)
+// Literally identical to the i function but without the
+// negative-checking code.
+char* PwNumberToStringu(uint64_t number, char* str, uint32_t base)
+{
+    int i = 0;
+
+    if (number == 0)
+    {
+        str[i++] = '0';
+        str[i] = '\0';
+        return str;
+    }
+
+    while (number != 0)
+    {
+        int rem = number % base;
+        str[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
+        number = number / base;
+    }
+
+    str[i] = '\0';
+    ReverseString(str);
+    return str;
+}
+
+char* PwNumberToStringi(int64_t number, char* str, int32_t base)
 {
     int i = 0;
     bool neg = false;
@@ -95,14 +120,14 @@ void PwWritep(const void* ptr)
 void PwWriteih(int64_t number)
 {
     char buffer[64];
-    PwNumberToString(number, buffer, 16);
+    PwNumberToStringi(number, buffer, 16);
     PwWrite(buffer);
 }
 
 void PwWritei(int64_t number)
 {
     char buffer[64];
-    PwNumberToString(number, buffer, 10);
+    PwNumberToStringi(number, buffer, 10);
     PwWrite(buffer);  
 }
 
@@ -113,3 +138,10 @@ void PwWritec(char c)
     bu[1] = '\0';
     PwWrite(bu);
 }
+
+void PwWriteu(uint64_t number)
+{
+    char gd[64];
+    PwNumberToStringu(number, gd, 10);
+}
+

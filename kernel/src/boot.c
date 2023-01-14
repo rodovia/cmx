@@ -18,14 +18,6 @@ static volatile struct limine_memmap_request memmap_request = {
 char g_Stack[4096];
 static void done(void);
 
-void PrintfTest(void)
-{
-    void* ptr = (void*) 0x100000;
-    printf("ptr: %p\n", ptr);
-    printf("Pw%s\n", "Write");
-
-}
-
 void _start(void) 
 {
     struct limine_memmap_entry* entry = NULL;
@@ -48,17 +40,15 @@ void _start(void)
         PwWrite("There is no physical memory available for CMX to boot up.");
         done();
     }
-
-    printf("Physical memory starting at %h\n", entry->base);
     PwWrite("Hello CMX!\n");
 
+    printf("Physical memory beginning at %h", entry->base);
     GdtEncodeAndSet();
     IdtInit();
-    PrintfTest();
+    PmInit(4096 * 2, entry->base);
 
-    PmInit(0, entry->base);
-    int64_t* ptr = PmAlloc(sizeof(int64_t));
-    (*ptr) = INT64_MAX;
+    // int64_t* ptr = PmAlloc(sizeof(int64_t));
+    // (*ptr) = INT64_MAX;
     done();
 }
 

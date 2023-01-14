@@ -7,8 +7,9 @@
 /*
     Format specifiers supported:
         - %s: char array
-        - %h: Hexadecimal int64_t
-        - %i: int64_t
-
+        - %h: hexadecimal long int
+        - %i: long int
+        - %ui: unsigned int
+        - %ul: unsigned long
 */
 void printf(const char* msg, ...);
