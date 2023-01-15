@@ -7,7 +7,7 @@
 static void DumpFrame(interrupt_frame_t* frame)
 {
     printf("> INTERRUPT FRAME <\n");
-    printf("\tRIP: %i\n\tEFLAGS: %i\n\tSP: %i\n\tSS: %i\n",
+    printf("RIP=%i. EFLAGS=%i\nSP=%i. SS=%i\n",
             (int64_t)frame->Rip, 
             frame->Eflags,
             frame->Sp,
@@ -122,7 +122,7 @@ void _isr12(interrupt_frame_t* frame, uword_t error)
 __attribute__((interrupt)) 
 void _isr13(interrupt_frame_t* frame, uword_t error)
 {
-    printf("General Protection Fault. %ul. Dumping frame.", error);
+    printf("General Protection Fault. error=%i\n", error);
     DumpFrame(frame);
     __asm__ volatile("cli; hlt");
 }
