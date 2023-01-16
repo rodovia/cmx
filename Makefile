@@ -1,11 +1,12 @@
 KE_OUTPUT=kernel/bin/oskrnl.elf
-ISO_OUTPUT=cmx-x86_64.iso
+TARGET_ARCH?=x86_64
+ISO_OUTPUT=cmx-$(TARGET_ARCH).iso
 
 all: $(KE_OUTPUT) iso/$(ISO_OUTPUT)
 .PHONY: $(KE_OUTPUT)
 
 $(KE_OUTPUT):
-	make -C kernel
+	make -C kernel TARGET_ARCH=$(TARGET_ARCH)
 
 iso/$(ISO_OUTPUT): $(KE_OUTPUT)
 	mkdir -p iso/root
