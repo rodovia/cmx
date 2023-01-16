@@ -17,8 +17,8 @@ CUSTOM_LDFLAGS?=
 override LDFLAGS=-nostdlib -static -m elf_x86_64 -z max-page-size=0x1000 \
 	-T linker.ld
 
-CCFILES=boot.c mm/phys.c cpu/gdt.c klibc/string.c cpu/idt/idt.c cpu/idt/idt_handlers.c print.c \
-		klibc/stdio.c
+CCFILES=boot.c mm/physical/phys.c cpu/gdt.c klibc/string.c cpu/idt/idt.c cpu/idt/idt_handlers.c print.c \
+		klibc/stdio.c mm/physical/bucket/malloc.c mm/physical/bucket/bck.c
 ASFILES=cpu/gdt.s
 
 CCSOURCES=$(addprefix src/,$(CCFILES))

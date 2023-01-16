@@ -3,7 +3,8 @@
 #include "string.h"
 #include "cpu/gdt.h"
 #include "cpu/idt/idt.h"
-#include "mm/phys.h"
+#include "mm/physical/phys.h"
+#include "mm/physical/bucket/malloc.h"
 #include "klibc/stdio.h"
 #include <stdint.h>
 #include <stdbool.h>
@@ -51,8 +52,9 @@ void _start(void)
 
     GdtEncodeAndSet();
     IdtInit();
-    PmInit(512, entry->base);
-    BochsDebugBreak;
+    struct mem_global* gl = PmInit(512, entry->base);
+    PmMakeGlobalCurrent(gl);
+
     int32_t* s = PmAlloc(sizeof(int32_t));
     (*s) = 32;
     printf("s: %p\n", s);
@@ -61,10 +63,18 @@ void _start(void)
     (*c) = INT32_MAX;
     printf("c: %p\n", c);
 
+    uint32_t* pt = PmAlloc(sizeof(int32_t) * 3);
+    pt[0] = 16;
+    pt[1] = 32;
+    pt[2] = 64;
+
+    malloc_init(0x1000000, entry->base + 0x1000000);
+
     int32_t* fd = PmAlloc(sizeof(int32_t));
     (*fd) = INT32_MAX;
     printf("fd: %p\n", fd);
-
+    void* ptr = Q_malloc(1024);
+    printf("ptr: %p\n", ptr);
     done();
 }
 
